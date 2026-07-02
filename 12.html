@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>E-Commerce Webpage</title>
+	
+	    <style>
+		/* --- YOUR ORIGINAL BASIC STYLING --- */
+		body {
+		 font-family: arial, sans-serif;
+		 margin: 0;
+		 background-color: #f4f4f4;
+		 overflow-x: hidden;
+		}
+		header {
+		 background-color: #0dc4e0;
+		 color: white;
+		 padding: 20px 0;
+		 text-align: center;
+		 max-height: 150px;
+		 position: relative; /* Added to keep your absolute elements bound properly */
+		}
+		#moon {
+		 background-color: #136c80;
+         height: 35px;
+		 padding: 10px;
+		 text-align: left;
+         font-size: 25px; 
+		 display: flex;
+		 align-items: center;
+		}
+		nav a {
+		 color: white;
+		 margin: 0 10px;
+		 text-decoration: none;
+		 font-weight: bold;
+		 cursor: pointer;
+		}
+		nav a:hover {
+		 text-decoration: underline;
+		}
+        .logo {
+         position: absolute;
+         top: 25px;
+         left: 25px;
+         width: 150px;
+         height: 150px;
+         z-index: 10;
+        }
+        
+		#class3 {
+         width: 300px;
+         height: 40px;
+         background-color: rgb(106, 216, 10);
+		 color: white;
+		 font-size: 22px;
+		 float: right;
+         display: flex;
+		 justify-content: center;
+		 align-items: center;
+		 position: relative;
+         top: -210px;
+         text-align: center;
+		 right: 15px;
+		 cursor: pointer;
+		 text-decoration: none;
+        }
+		#class4 {
+		 text-align: right;
+		 font-size: 50px;
+		 top: -200px;
+		 position: relative;
+		 right: 100px;
+		 margin: 0;
+		 cursor: pointer;
+		}
+
+		/* --- MERGED ADVANCED FEATURE CLASS RENAME FIXES --- */
+		.section-block { padding: 40px 5%; }
+        .section-headline { font-size: 1.8rem; font-weight: 700; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* SPA View Configurations */
+        .app-view { display: none; }
+        .app-view.active-view { display: block; }
+
+		/* Embedded Header Search Layout Modification */
+		.header-search-box {
+			position: absolute;
+			bottom: 15px;
+			left: 220px;
+			width: 35%;
+			display: flex;
+			z-index: 5;
+		}
+		.search-input-field { width: 100%; padding: 8px 12px; border: none; border-radius: 4px; outline: none; }
+		.search-popup { position: absolute; top: 100%; left: 0; width: 100%; background: white; color: black; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: none; border-radius: 0 0 4px 4px; }
+		.search-item-row { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; }
+		.search-item-row:hover { background: #f5f5f5; }
+
+        /* Hero Element styling */
+        .hero-banner { height: 50vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background: #222; }
+        .hero-img-cover { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); }
+        .hero-inner-txt { position: relative; z-index: 2; max-width: 700px; }
+        .hero-inner-txt h1 { font-size: 2.5rem; margin-bottom: 10px; }
+		.hero-action-btn { padding: 10px 20px; background: #fb641b; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+        /* Categorization Display Setup */
+        .grid-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
+        .card-category-item { background: white; padding: 20px; text-align: center; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* Flash Deal Module Styling */
+        .flash-sale-strip { background: linear-gradient(135deg, #fb641b 0%, #ff9f00 100%); color: white; border-radius: 6px; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .chrono-timer { display: flex; gap: 5px; font-size: 1.1rem; font-weight: bold; }
+        .chrono-block { background: rgba(0,0,0,0.2); padding: 5px 8px; border-radius: 4px; }
+
+        /* Catalog Product Configurations */
+        .grid-products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .card-product-item { background: white; border-radius: 6px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .zoom-img-frame { width: 100%; height: 160px; background: #f9f9f9; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .zoom-img-frame img { max-height: 100%; max-width: 100%; transition: 0.3s; }
+        .card-product-item:hover .zoom-img-frame img { transform: scale(1.1); }
+        .btn-cart-push { width: 100%; background: #ff9f00; color: white; border: none; padding: 8px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .cart-number-badge { position: absolute; top: -2px; right: -5px; background: #fb641b; color: white; font-size: 12px; padding: 2px 6px; border-radius: 50%; font-family: sans-serif; }
+
+        /* Data Matrix Displays */
+        .strip-stats { background: #0dc4e0; color: white; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center; padding: 25px; border-radius: 6px; }
+        .strip-stats h2 { margin: 0 0 5px 0; font-size: 1.8rem; }
+
+        /* Accordion Structure Component */
+        .wrapper-faq { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+        .node-faq { background: white; border-radius: 4px; overflow: hidden; }
+        .head-faq { padding: 15px; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; background: #eee; }
+        .body-faq { padding: 0 15px; max-height: 0; overflow: hidden; transition: 0.3s ease; color: #555; }
+        .node-faq.active .body-faq { padding: 15px; max-height: 120px; }
+
+        /* Dynamic Slide Drawer Layout */
+        .drawer-cart-panel { position: fixed; top: 0; right: -320px; width: 100%; max-width: 300px; height: 100%; background: white; box-shadow: -3px 0 10px rgba(0,0,0,0.15); z-index: 1500; transition: right 0.3s ease; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box; }
+        .drawer-cart-panel.open { right: 0; }
+        .drawer-items-container { flex: 1; overflow-y: auto; margin: 15px 0; }
+
+        /* Operational Toast Systems */
+        #box-toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+        .toast-popup-node { background: #333; color: white; padding: 10px 15px; border-radius: 4px; font-size: 13px; animation: slideIn 0.3s forwards, fadeOut 0.3s linear 2.7s forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(100%); } }
+
+        #btn-scroll-top { position: fixed; bottom: 20px; left: 20px; background: #0dc4e0; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; cursor: pointer; display: none; z-index: 1000; }
+        
+        /* Preloader Cover */
+        #cover-preloader { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999; display:flex; justify-content:center; align-items:center; transition: opacity 0.4s; }
+        .spin-element { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid #0dc4e0; border-radius: 50%; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+		/* About Page Text Padding Styles */
+		.story-block { background: white; padding: 25px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.6; }
+	</style>
+	</head>
+	<body>
+            <div id="cover-preloader"><div class="spin-element"></div></div>
+
+			<header>
+                <img src="D:\Deepak e-commerce webpage\WhatsApp Image 2026-06-29 at 10.36.31 PM.jpeg" alt="Tech Store image" class="logo">
+				<h1 style="font-size: 65px; margin: 0;">Tech Store</h1>
+				
+				<div class="header-search-box">
+					<input type="text" class="search-input-field" placeholder="Search product line inventory items..." oninput="processLiveSearchData(this.value)">
+					<div id="popup-search-hints" class="search-popup"></div>
+				</div>
+
+				<nav><a onclick="toggleSlideCartDrawer()"><p id="class4">🛍️<span id="nav-cart-indicator" class="cart-number-badge">0</span></p></a></nav>
+				<a onclick="emitToastFeedback('Opening register system portal dialog...')"><p id="class3">login register</p></a> 
+			</header>
+
+			<nav id="moon">
+                <a onclick="triggerViewSwitch('home-view')">Home</a>
+                <a onclick="triggerViewSwitch('about-view')">About Us</a>
+                <a onclick="document.getElementById('catalog-anchor').scrollIntoView()">Products</a>
+                <a onclick="triggerViewSwitch('contact-view')">Contact Us</a>
+			</nav>
+			
+            <main id="home-view" class="app-view active-view">
+                <section class="hero-banner">
+                    <img class="hero-img-cover" src="https://images.unsplash.com/photo-1468436139062-f60a71c5c892?w=1000&auto=format&fit=crop" alt="Banner Context">
+                    <div class="hero-inner-txt">
+                        <h1>Premium Tech Configurations</h1>
+                        <p>Access high-performance developer equipment builds and consumer electronics items directly.</p>
+                        <button class="hero-action-btn" onclick="document.getElementById('catalog-anchor').scrollIntoView()">Explore Store Items</button>
+                    </div>
+                </section>
+
+                <section class="section-block">
+                    <h2 class="section-headline">Explore Hardware Sectors</h2>
+                    <div class="grid-categories">
+                        <div class="card-category-item"><span style="font-size:2rem; display:block;">💻</span><h4>Laptops</h4></div>
+                        <div class="card-category-item"><span style="font-size:2rem; display:block;">📱</span><h4>Smartphones</h4></div>
+                        <div class="card-category-item"><span style="font-size:2rem; display:block;">🎧</span><h4>Audio Equipment</h4></div>
+                        <div class="card-category-item"><span style="font-size:2rem; display:block;">⌚</span><h4>Wearable Devices</h4></div>
+                    </div>
+                </section>
+
+                <section class="section-block">
+                    <div class="flash-sale-strip">
+                        <div>
+                            <h3 style="margin:0 0 5px 0;">⚡ Flash Deal Allocation Matrix</h3>
+                            <p style="margin:0; font-size:0.9rem;">Pricing drop allocations shifting systematically hourly.</p>
+                        </div>
+                        <div class="chrono-timer">
+                            <div id="val-hr" class="chrono-block">00</div>:
+                            <div id="val-min" class="chrono-block">00</div>:
+                            <div id="val-sec" class="chrono-block">00</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="catalog-anchor" class="section-block">
+                    <h2 class="section-headline">Featured Product Inventory</h2>
+                    <div class="grid-products">
+                        
+                        <div class="card-product-item">
+                            <div class="zoom-img-frame">
+                                <span style="position:absolute; top:10px; left:10px; background:#388e3c; color:white; font-size:11px; padding:2px 5px; font-weight:bold; border-radius:2px;">-20%</span>
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&auto=format&fit=crop" alt="Headphones Product">
+                            </div>
+                            <div style="padding-top:10px;">
+                                <div style="color:#388e3c; font-size:12px; font-weight:bold; margin-bottom:5px;">★ 4.7 (340)</div>
+                                <h4 style="margin:0 0 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Studio ANC Pro Headset Matrix</h4>
+                                <div style="font-weight:bold; font-size:1.1rem;">Scale Price: ₹11,999</div>
+                                <button class="btn-cart-push" onclick="addItemToMemoryCart(301, 'Studio ANC Pro Headset', 11999)">Add To Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="card-product-item">
+                            <div class="zoom-img-frame">
+                                <span style="position:absolute; top:10px; left:10px; background:#388e3c; color:white; font-size:11px; padding:2px 5px; font-weight:bold; border-radius:2px;">-15%</span>
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&auto=format&fit=crop" alt="Smartwatch Product">
+                            </div>
+                            <div style="padding-top:10px;">
+                                <div style="color:#388e3c; font-size:12px; font-weight:bold; margin-bottom:5px;">★ 4.5 (112)</div>
+                                <h4 style="margin:0 0 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Chrono OLED Intelligent Smartwatch</h4>
+                                <div style="font-weight:bold; font-size:1.1rem;">Scale Price: ₹7,490</div>
+                                <button class="btn-cart-push" onclick="addItemToMemoryCart(302, 'Chrono OLED Smartwatch', 7490)">Add To Cart</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="section-block">
+                    <div class="strip-stats">
+                        <div><h2>40K+</h2><p style="margin:0; font-size:13px;">Systems Distributed</p></div>
+                        <div><h2>900+</h2><p style="margin:0; font-size:13px;">Verified Hardware SKUs</p></div>
+                        <div><h2>99.7%</h2><p style="margin:0; font-size:13px;">Performance Index Metric</p></div>
+                    </div>
+                </section>
+
+                <section class="section-block">
+                    <h2 class="section-headline" style="justify-content:center;">Customer Resource Center FAQ</h2>
+                    <div class="wrapper-faq">
+                        <div class="node-faq" onclick="toggleFaqAccordionElement(this)">
+                            <div class="head-faq">Are standard hardware warranties attached? <span>+</span></div>
+                            <div class="body-faq">Yes, all digital devices processing nodes carry a structural 1-Year manufacturer coverage lifecycle sequence bound dynamically to your purchase bill code.</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <main id="about-view" class="app-view">
+                <section class="section-block">
+                    <div class="story-block">
+                        <h2 style="margin-top:0;">Corporate Mission Profile</h2>
+                        <p>Tech Store structures standard digital commerce pathways connecting end consumers directly with international components channels and tier-one supply logistics channels seamlessly.</p>
+                        <p>We work comprehensively across modern technological spaces to isolate product margins and preserve structural buyer quality parameters across variables execution routes.</p>
+                    </div>
+                </section>
+            </main>
+
+            <main id="contact-view" class="app-view">
+                <section class="section-block" style="max-width:600px; margin: 0 auto;">
+                    <div class="story-block" style="display:flex; flex-direction:column; gap:12px;">
+                        <h2 style="margin-top:0;">Support System Dispatch Node</h2>
+                        <input type="text" placeholder="Identity Payload String / Full Name" style="padding:10px; border:1px solid #ccc; border-radius:4px;">
+                        <input type="email" placeholder="Communication Callback Endpoint / Email Address" style="padding:10px; border:1px solid #ccc; border-radius:4px;">
+                        <textarea rows="4" placeholder="Describe system anomaly parameters or general checkout concerns context..." style="padding:10px; border:1px solid #ccc; border-radius:4px; font-family:arial, sans-serif;"></textarea>
+                        <button class="hero-action-btn" onclick="emitToastFeedback('Communications ticket packet dispatched successfully to core monitoring lines! 🚀')">Submit Transmission</button>
+                    </div>
+                </section>
+            </main>
+
+            <footer style="background:#222; color:#aaa; padding:30px 5%; font-size:13px; text-align:center; margin-top:40px;">
+                <p>&copy; 2026 Tech Store Operational Network Solutions Inc. All Rights Reserved.</p>
+            </footer>
+
+            <div id="slider-drawer-container" class="drawer-cart-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px;">
+                    <h3 style="margin:0;">My Cart Memory Space</h3>
+                    <button style="background:none; border:none; font-size:24px; cursor:pointer;" onclick="toggleSlideCartDrawer()">&times;</button>
+                </div>
+                <div id="drawer-basket-elements" class="drawer-items-container">
+                    </div>
+                <div style="border-top:1px dashed #ccc; padding-top:10px;">
+                    <div style="display:flex; justify-content:space-between; font-weight:bold; margin-bottom:10px;">
+                        <span>Aggregated Price Value:</span>
+                        <span id="grand-total-display">₹0.00</span>
+                    </div>
+                    <button class="hero-action-btn" style="width:100%;" onclick="emitToastFeedback('Transferring operational tracking data frames to payment systems...')">Checkout Sequence</button>
+                </div>
+            </div>
+
+            <button id="btn-scroll-top" onclick="window.scrollTo(0,0)">↑</button>
+            <div id="box-toast-container"></div>
+
+            <script>
+                // Memory variable state registries
+                let internalCartMemory = [];
+
+                // Page Switch Engine Mechanism (SPA Functionality mapping)
+                function triggerViewSwitch(targetViewId) {
+                    const viewsList = document.querySelectorAll('.app-view');
+                    viewsList.forEach(viewNode => viewNode.classList.remove('active-view'));
+                    
+                    const targetedActiveView = document.getElementById(targetViewId);
+                    if(targetedActiveView) {
+                        targetedActiveView.classList.add('active-view');
+                        window.scrollTo(0,0);
+                    }
+                }
+
+                // Preloader closer logic routines
+                window.addEventListener('load', () => {
+                    const preloaderNode = document.getElementById('cover-preloader');
+                    if(preloaderNode) preloaderNode.style.opacity = '0';
+                    setTimeout(() => preloaderNode.style.display = 'none', 400);
+                    activateClockChronologyLoop();
+                });
+
+                // Scroll detection routine binding back to top indicator triggers
+                window.addEventListener('scroll', () => {
+                    const scrollTriggerBtn = document.getElementById('btn-scroll-top');
+                    if(window.scrollY > 350) scrollTriggerBtn.style.display = 'block';
+                    else scrollTriggerBtn.style.display = 'none';
+                });
+
+                // Live Autocorrect search listing rendering loop
+                function processLiveSearchData(valueStr) {
+                    const trackingPanel = document.getElementById('popup-search-hints');
+                    if(valueStr.trim().length === 0) {
+                        trackingPanel.style.display = 'none';
+                        return;
+                    }
+                    trackingPanel.style.display = 'block';
+                    trackingPanel.innerHTML = `
+                        <div class="search-item-row" onclick="dispatchGlobalQuerySearch('${valueStr}')">🔍 Query catalog sector entries for: <b>${valueStr}</b></div>
+                    `;
+                }
+
+                function dispatchGlobalQuerySearch(queryString) {
+                    emitToastFeedback(`Dispatched search framework packet targeting arrays: ${queryString}`);
+                    document.getElementById('popup-search-hints').style.display = 'none';
+                }
+
+                // Mathematical flash clock chrono processing loop
+                function activateClockChronologyLoop() {
+                    let defaultHours = 1, defaultMinutes = 35, defaultSeconds = 12;
+                    setInterval(() => {
+                        defaultSeconds--;
+                        if(defaultSeconds < 0) { defaultSeconds = 59; defaultMinutes--; }
+                        if(defaultMinutes < 0) { defaultMinutes = 59; defaultHours--; }
+                        document.getElementById('val-hr').innerText = String(defaultHours).padStart(2, '0');
+                        document.getElementById('val-min').innerText = String(defaultMinutes).padStart(2, '0');
+                        document.getElementById('val-sec').innerText = String(defaultSeconds).padStart(2, '0');
+                    }, 1000);
+                }
+
+                function toggleFaqAccordionElement(nodeRef) { nodeRef.classList.toggle('active'); }
+                function toggleSlideCartDrawer() { document.getElementById('slider-drawer-container').classList.toggle('open'); }
+
+                // Cart array structure tracking processing functions
+                function addItemToMemoryCart(id, name, valuation) {
+                    const memoryTargetItem = internalCartMemory.find(itemObj => itemObj.id === id);
+                    if(memoryTargetItem) { memoryTargetItem.quantity++; }
+                    else { internalCartMemory.push({ id, name, valuation, quantity: 1 }); }
+                    emitToastFeedback(`Logged sequence update: Added ${name} to allocation registry structure.`);
+                    rebuildMemoryCartInterface();
+                }
+
+                function rebuildMemoryCartInterface() {
+                    const visualizationListContainer = document.getElementById('drawer-basket-elements');
+                    let aggregatedUnitTotal = 0;
+                    let combinedFinancialSum = 0;
+                    
+                    visualizationListContainer.innerHTML = '';
+                    if(internalCartMemory.length === 0) {
+                        visualizationListContainer.innerHTML = '<p style="color:#777; text-align:center; font-size:13px; padding-top:20px;">Allocation matrix memory slot: empty.</p>';
+                    }
+
+                    internalCartMemory.forEach(elementRecord => {
+                        aggregatedUnitTotal += elementRecord.quantity;
+                        combinedFinancialSum += elementRecord.valuation * elementRecord.quantity;
+                        
+                        visualizationListContainer.innerHTML += `
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:13px; border-bottom:1px solid #eee; padding-bottom:8px;">
+                                <div>
+                                    <h5 style="margin:0 0 2px 0;">${elementRecord.name}</h5>
+                                    <span style="color:#666;">₹${elementRecord.valuation.toLocaleString('en-IN')} x ${elementRecord.quantity}</span>
+                                </div>
+                                <button style="color:red; background:none; border:none; cursor:pointer;" onclick="deleteItemFromCartRecord(${elementRecord.id})">Remove</button>
+                            </div>
+                        `;
+                    });
+
+                    document.getElementById('nav-cart-indicator').innerText = aggregatedUnitTotal;
+                    document.getElementById('grand-total-display').innerText = `₹${combinedFinancialSum.toLocaleString('en-IN')}.00`;
+                }
+
+                function deleteItemFromCartRecord(id) {
+                    internalCartMemory = internalCartMemory.filter(record => record.id !== id);
+                    rebuildMemoryCartInterface();
+                }
+
+                // Global Toast UI Alert Trigger Component
+                function emitToastFeedback(messagePayloadText) {
+                    const hostBox = document.getElementById('box-toast-container');
+                    const elementAlertNode = document.createElement('div');
+                    elementAlertNode.className = 'toast-popup-node';
+                    elementAlertNode.innerText = messagePayloadText;
+                    hostBox.appendChild(elementAlertNode);
+                    setTimeout(() => elementAlertNode.remove(), 3000);
+                }
+            </script>
+	</body>
+</html>
